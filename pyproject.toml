@@ -1,0 +1,19 @@
+# Simple uv project for GitHub Classroom assignment
+# Students don't need to build/publish this - just run tests
+
+[project]
+name = "git-pointers-exercise-template"
+version = "0.1.0"
+description = "Git Pointers Exercise"
+requires-python = ">=3.11"
+dependencies = [
+    "pytest>=7.4.0",
+]
+
+# Note: No build-system needed for simple script projects
+# Students just run: uv sync && uv run pytest
+
+[tool.pytest.ini_options]
+# Configure pytest to find modules in the project root
+pythonpath = ["."]
+testpaths = ["tests"]
