@@ -1,83 +1,83 @@
-# Git Pointers Exercise: Understanding Branches as Pointers
+# Git Pointers Übung: Branches als Pointer verstehen
 
-## 📚 Learning Objectives
+## 📚 Lernziele
 
-After completing this exercise, you will understand the key concepts covered in the lecture.
+Nach Abschluss dieser Übung wirst du die wichtigsten Konzepte aus der Vorlesung verstehen.
 
-## 📝 Instructions
+## 📝 Anleitung
 
-### Step 1: Read the Exercise
+### Schritt 1: Übung lesen
 
-Open [`exercise.md`](./exercise.md) and carefully read each question.
+Öffne [`exercise.md`](./exercise.md) und lies jede Frage sorgfältig durch.
 
-### Step 2: Submit Your Answers
+### Schritt 2: Antworten eintragen
 
-Edit the [`answers.py`](./answers.py) file and fill in your answers:
+Bearbeite die Datei [`answers.py`](./answers.py) und trage deine Antworten ein:
 
 ```python
-# Example:
+# Beispiel:
 answers = {
-    1: "A",  # Question 1: Option A
-    2: "D",  # Question 2: Option D
-    # ... fill in all 15 questions
+    1: "A",  # Frage 1: Option A
+    2: "D",  # Frage 2: Option D
+    # ... fülle alle 15 Fragen aus
 }
 ```
 
-### Step 3: Test Locally (Optional)
+### Schritt 3: Lokal testen (optional)
 
-Before pushing, you can test your answers locally:
+Bevor du pushst, kannst du deine Antworten lokal testen:
 
 ```bash
-# Install dependencies
+# Dependencies installieren
 uv sync
 
-# Run tests
+# Tests ausführen
 uv run pytest tests/test_answers.py -v
 ```
 
-### Step 4: Submit via Git
+### Schritt 4: Über Git einreichen
 
 ```bash
-# Stage your changes
+# Änderungen zum Commit vormerken
 git add answers.py
 
-# Commit your work
+# Commit erstellen
 git commit -m "Submit Git Pointers Exercise answers"
 
-# Push to GitHub
+# Änderungen pushen
 git push
 ```
 
-### Step 5: Check Autograding
+### Schritt 5: Autograding überprüfen
 
-After pushing, GitHub Actions will automatically run tests.
+Nach dem Pushen führt GitHub Actions automatisch Tests aus.
 
-1. Go to the "Actions" tab in your repository
-2. Click on the latest workflow run
-3. Check if tests passed ✅ or failed ❌
+1. Gehe im Repository auf den „Actions“ Tab  
+2. Klicke auf den neuesten Workflow Run  
+3. Überprüfe, ob die Tests bestanden ✅ oder fehlgeschlagen ❌ sind
 
-If tests fail:
-- Review the error messages
-- Update `answers.py`
-- Commit and push again
+Wenn Tests fehlschlagen:
+- Lies die Fehlermeldungen aufmerksam durch  
+- Aktualisiere `answers.py`  
+- Committe und pushe erneut  
 
-## 📊 Scoring
+## 📊 Bewertung
 
-- **13-15 correct**: Excellent! 🏆
-- **10-12 correct**: Good understanding! 👍
-- **7-9 correct**: Fair understanding - review the lecture materials 📖
-- **Below 7**: Please review the lecture and try again 🔄
+- **13–15 richtig**: Excellent! 🏆  
+- **10–12 richtig**: Good understanding! 👍  
+- **7–9 richtig**: Grundverständnis vorhanden – wiederhole die Lecture Notes 📖  
+- **Unter 7**: Bitte sieh dir die Lecture erneut an und versuche es nochmal 🔄  
 
-## 🆘 Getting Help
+## 🆘 Hilfe bekommen
 
-If you're stuck:
-1. Review the lecture slides
-2. Try the practice examples
-3. Ask questions in the course forum
-4. Attend office hours
+Wenn du nicht weiterkommst:
+1. Schau dir die Lecture Slides erneut an  
+2. Probiere die Practice Examples aus  
+3. Stelle Fragen im Course Forum  
+4. Nimm an den Office Hours teil  
 
-## ⏰ Deadline
+## ⏰ Abgabefrist
 
-Check your course calendar for the submission deadline.
+Überprüfe deinen Course Calendar für die Deadline.
 
-Good luck! 🚀
+Viel Erfolg! 🚀
