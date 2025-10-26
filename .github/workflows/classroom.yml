@@ -61,11 +61,12 @@ jobs:
               // Parse score from output
               const scoreMatch = output.match(/FINAL SCORE: (\d+)\/15 \((\d+\.?\d*)%\)/);
 
+              let commentBody;
               if (scoreMatch) {
                 const [, correct, percentage] = scoreMatch;
                 const percentNum = parseFloat(percentage);
 
-                // Determine emoji and message
+                // Determine emoji and message based on thresholds
                 let emoji, message;
                 if (percentNum >= 87) {
                   emoji = '🏆';
@@ -81,29 +82,70 @@ jobs:
                   message = 'Please review the lecture and try again.';
                 }
 
-                // Post comment on commit
-                await github.rest.repos.createCommitComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  commit_sha: context.sha,
-                  body: `## ${emoji} Autograding Results\n\n**Score:** ${correct}/15 (${percentage}%)\n\n${message}\n\n---\n\n📊 [View detailed test results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
-                });
+                commentBody = `## ${emoji} Autograding Results\n\n**Score:** ${correct}/15 (${percentage}%)\n\n${message}\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n---\n\n📊 [View detailed test results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
               } else {
-                // Couldn't parse score - post generic message
+                commentBody = `## 📊 Autograding Complete\n\nTests have finished running.\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n🔍 [View detailed results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+              }
+
+              // Find the feedback PR (created by GitHub Classroom)
+              const pulls = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                head: `${context.repo.owner}:feedback`
+              });
+
+              // Post to feedback PR if it exists
+              if (pulls.data.length > 0) {
+                const feedbackPR = pulls.data[0];
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: feedbackPR.number,
+                  body: commentBody
+                });
+                console.log(`Posted score to feedback PR #${feedbackPR.number}`);
+              } else {
+                // Fallback: Post on commit if no feedback PR exists
                 await github.rest.repos.createCommitComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   commit_sha: context.sha,
-                  body: `## 📊 Autograding Complete\n\nTests have finished running.\n\n🔍 [View detailed results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+                  body: commentBody
                 });
+                console.log('Posted score to commit (no feedback PR found)');
               }
             } catch (error) {
               console.log('Error posting comment:', error);
-              // Post error comment
-              await github.rest.repos.createCommitComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                commit_sha: context.sha,
-                body: `## ⚠️ Autograding Error\n\nThere was an issue running the tests.\n\n🔍 [Check the logs](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
-              });
+              console.log('Error details:', JSON.stringify(error, null, 2));
+
+              // Try to post error to feedback PR or commit
+              try {
+                const errorBody = `## ⚠️ Autograding Error\n\nThere was an issue running the tests.\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n🔍 [Check the logs](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+
+                const pulls = await github.rest.pulls.list({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  head: `${context.repo.owner}:feedback`
+                });
+
+                if (pulls.data.length > 0) {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pulls.data[0].number,
+                    body: errorBody
+                  });
+                } else {
+                  await github.rest.repos.createCommitComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    commit_sha: context.sha,
+                    body: errorBody
+                  });
+                }
+              } catch (fallbackError) {
+                console.log('Failed to post error comment:', fallbackError);
+              }
             }
