@@ -42,12 +42,6 @@ jobs:
         run: |
           uv run pytest tests/test_answers.py -v --tb=short
 
-      - name: Calculate score
-        id: score
-        if: always()
-        run: |
-          uv run pytest tests/test_answers.py::test_calculate_score -v -s 2>&1 | tee score_output.txt
-      
       - name: Post score comment
         uses: actions/github-script@v7
         if: always()
@@ -112,13 +106,38 @@ jobs:
 
               // Post to feedback PR if it exists
               if (feedbackPR) {
-                await github.rest.issues.createComment({
+                // Find existing bot comments to update instead of creating duplicates
+                const comments = await github.rest.issues.listComments({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  issue_number: feedbackPR.number,
-                  body: commentBody
+                  issue_number: feedbackPR.number
                 });
-                console.log(`Posted score to feedback PR #${feedbackPR.number} (${feedbackPR.head.ref})`);
+
+                // Look for existing autograding comment from github-actions bot
+                const existingComment = comments.data.find(comment =>
+                  comment.user.login === 'github-actions[bot]' &&
+                  comment.body.includes('Autograding Results')
+                );
+
+                if (existingComment) {
+                  // Update existing comment
+                  await github.rest.issues.updateComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: existingComment.id,
+                    body: commentBody
+                  });
+                  console.log(`Updated existing score comment in feedback PR #${feedbackPR.number}`);
+                } else {
+                  // Create new comment if none exists
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: feedbackPR.number,
+                    body: commentBody
+                  });
+                  console.log(`Posted new score to feedback PR #${feedbackPR.number}`);
+                }
               } else {
                 // Fallback: Post on commit if no feedback PR exists
                 await github.rest.repos.createCommitComment({
