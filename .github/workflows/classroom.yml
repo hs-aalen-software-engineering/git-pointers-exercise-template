@@ -11,6 +11,7 @@ permissions:
   checks: write
   actions: read
   contents: write
+  pull-requests: write
 
 jobs:
   grade:
