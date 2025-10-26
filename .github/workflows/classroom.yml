@@ -10,7 +10,7 @@ on:
 permissions:
   checks: write
   actions: read
-  contents: read
+  contents: write
 
 jobs:
   grade:
@@ -36,10 +36,74 @@ jobs:
           uv sync
 
       - name: Run tests
+        id: tests
+        continue-on-error: true
         run: |
           uv run pytest tests/test_answers.py -v --tb=short
 
       - name: Calculate score
+        id: score
         if: always()
         run: |
-          uv run pytest tests/test_answers.py::test_calculate_score -v -s
+          uv run pytest tests/test_answers.py::test_calculate_score -v -s 2>&1 | tee score_output.txt
+      
+      - name: Post score comment
+        uses: actions/github-script@v7
+        if: always()
+        with:
+          script: |
+            const fs = require('fs');
+
+            try {
+              // Read score output
+              const output = fs.readFileSync('score_output.txt', 'utf8');
+
+              // Parse score from output
+              const scoreMatch = output.match(/FINAL SCORE: (\d+)\/15 \((\d+\.?\d*)%\)/);
+
+              if (scoreMatch) {
+                const [, correct, percentage] = scoreMatch;
+                const percentNum = parseFloat(percentage);
+
+                // Determine emoji and message
+                let emoji, message;
+                if (percentNum >= 87) {
+                  emoji = '🏆';
+                  message = 'Excellent! You have a strong understanding!';
+                } else if (percentNum >= 67) {
+                  emoji = '👍';
+                  message = 'Good understanding! Review key concepts.';
+                } else if (percentNum >= 47) {
+                  emoji = '📖';
+                  message = 'Fair understanding. Please review the lecture.';
+                } else {
+                  emoji = '🔄';
+                  message = 'Please review the lecture and try again.';
+                }
+
+                // Post comment on commit
+                await github.rest.repos.createCommitComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  commit_sha: context.sha,
+                  body: `## ${emoji} Autograding Results\n\n**Score:** ${correct}/15 (${percentage}%)\n\n${message}\n\n---\n\n📊 [View detailed test results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+                });
+              } else {
+                // Couldn't parse score - post generic message
+                await github.rest.repos.createCommitComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  commit_sha: context.sha,
+                  body: `## 📊 Autograding Complete\n\nTests have finished running.\n\n🔍 [View detailed results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+                });
+              }
+            } catch (error) {
+              console.log('Error posting comment:', error);
+              // Post error comment
+              await github.rest.repos.createCommitComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.sha,
+                body: `## ⚠️ Autograding Error\n\nThere was an issue running the tests.\n\n🔍 [Check the logs](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`
+              });
+            }
