@@ -357,26 +357,33 @@ C)
 
 D)
 ```
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←  b7c8d9e
-                                                                   ↑            ↑
-                                                              (v1.0)        main ← HEAD
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
+                                                                   ↑
+                                                              (v1.0)
                                                            feature/new-ui
+                                                            main ← HEAD
 ```
 
 ---
 
-## Frage 8: Divergierende Branches (Teil 2)
+## Frage 8: Divergierende Branches erstellen
 
-**Du wechselst zu `feature/new-ui` und machst dort ebenfalls einen Commit. Was jetzt?**
+**Ausgehend vom Ergebnis von Frage 7, wechselst du jetzt zu `feature/new-ui` und machst einen neuen Commit. Wie sieht das Repository aus?**
 
 ```
-Ausgangszustand:
+Ausgangszustand (von Frage 7):
   a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←  b7c8d9e
                                                                    ↑            ↑
                                                               (v1.0)        main ← HEAD
                                                            feature/new-ui
 
-Nach: git checkout feature/new-ui, dann einen Commit machen
+Ausgeführte Befehle:
+  git checkout feature/new-ui
+  echo "new feature code" >> app.js
+  git add app.js
+  git commit -m "Add new UI feature"
+
+Was ist das Ergebnis?
 ```
 
 A)
@@ -388,15 +395,15 @@ A)
 
 B)
 ```
-                                        b7c8d9e
-                                            ↑
-                                          main
-                                           ↙
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
-                                                                   ↑  ↘
-                                                              (v1.0)    f1g2h3i
-                                                                           ↑
-                                                                   feature/new-ui ← HEAD
+                                                                        b7c8d9e
+                                                                            ↑
+                                                                          main
+                                                                           /
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←
+                                                                   ↑      \
+                                                              (v1.0)       f1g2h3i
+                                                                              ↑
+                                                                      feature/new-ui ← HEAD
 ```
 
 C)
@@ -429,41 +436,41 @@ D)
 
 ```
 Vor dem Checkout:
-                                        b7c8d9e
-                                            ↑
-                                        main ← HEAD
-                                           ↙
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
-                                                                   ↑  ↘
-                                                              (v1.0)    f1g2h3i
-                                                                           ↑
-                                                                   feature/new-ui
+                                                                        b7c8d9e
+                                                                            ↑
+                                                                        main ← HEAD
+                                                                           /
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←
+                                                                   ↑      \
+                                                              (v1.0)       f1g2h3i
+                                                                              ↑
+                                                                      feature/new-ui
 ```
 
 A)
 ```
-                                        b7c8d9e
-                                            ↑
-                                          main
-                                           ↙
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
-                                                                   ↑  ↘
-                                                                 HEAD    f1g2h3i
-                                                              (v1.0)         ↑
-                                                                     feature/new-ui
+                                                                        b7c8d9e
+                                                                            ↑
+                                                                       main ← HEAD
+                                                                           /
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←
+                                                                   ↑      \
+                                                              (v1.0)       f1g2h3i
+                                                                              ↑
+                                                                      feature/new-ui
 ```
 
 B)
 ```
-                                        b7c8d9e
-                                            ↑
-                                          main
-                                           ↙
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
-                                                              HEAD ↑  ↘
-                                                              (v1.0)    f1g2h3i
-                                                                           ↑
-                                                                   feature/new-ui
+                                                                        b7c8d9e
+                                                                            ↑
+                                                                          main
+                                                                           /
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←
+                                                        main ← HEAD ↑      \
+                                                              (v1.0)       f1g2h3i
+                                                                              ↑
+                                                                      feature/new-ui
 ```
 
 C)
@@ -476,15 +483,15 @@ C)
 
 D)
 ```
-                                        b7c8d9e
-                                            ↑
-                                          main
-                                           ↙
-  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a
-                                                             ↑   ↑  ↘
-                                                           HEAD    f1g2h3i
-                                                        (detached)     ↑
-                                                              (v1.0) feature/new-ui
+                                                                        b7c8d9e
+                                                                            ↑
+                                                                          main
+                                                                           /
+  a1b2c3d  ←  e4f5g6h  ←  i7j8k9l  ←  p9q8r7s  ←  t1u2v3w  ←  x4y5z6a  ←
+                                                             ↑   ↑      \
+                                                           HEAD           f1g2h3i
+                                                        (detached)           ↑
+                                                              (v1.0)   feature/new-ui
 ```
 
 ---
