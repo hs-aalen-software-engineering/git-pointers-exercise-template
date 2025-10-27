@@ -17,16 +17,6 @@ answers = {
 
 ## Fragen
 
-
----
-layout: post
-title: "Lecture 3 Part 1 Übung: Git Pointer und Branches verstehen"
-date: 2025-10-23 10:00:00 +0200
-tags: [lecture-3-part-1, exercise, git, branches, pointers, workflows]
-lang: de
-permalink: /de/exercises/lecture-3-part-1-git-pointers/
----
-
 # Lecture 3 Part 1 Übung: Git Pointer und Branches verstehen
 
 ## Anleitung
