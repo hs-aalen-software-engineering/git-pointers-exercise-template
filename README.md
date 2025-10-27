@@ -19,7 +19,7 @@ Bearbeite die Datei [`answers.py`](./answers.py) und trage deine Antworten ein:
 answers = {
     1: "A",  # Frage 1: Option A
     2: "D",  # Frage 2: Option D
-    # ... fülle alle 15 Fragen aus
+    # ... fülle alle 20 Fragen aus
 }
 ```
 
@@ -63,10 +63,10 @@ Wenn Tests fehlschlagen:
 
 ## 📊 Bewertung
 
-- **13–15 richtig**: Excellent! 🏆  
-- **10–12 richtig**: Good understanding! 👍  
-- **7–9 richtig**: Grundverständnis vorhanden – wiederhole die Lecture Notes 📖  
-- **Unter 7**: Bitte sieh dir die Lecture erneut an und versuche es nochmal 🔄  
+- **17–20 richtig**: Excellent! 🏆
+- **14–16 richtig**: Good understanding! 👍
+- **10–13 richtig**: Grundverständnis vorhanden – wiederhole die Lecture Notes 📖
+- **Unter 10**: Bitte sieh dir die Lecture erneut an und versuche es nochmal 🔄  
 
 ## 🆘 Hilfe bekommen
 

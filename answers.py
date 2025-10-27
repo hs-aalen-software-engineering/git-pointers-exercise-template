@@ -2,7 +2,7 @@
 Git Pointers Exercise - Answer Submission
 
 Instructions:
-1. Fill in your answers for all 15 questions below
+1. Fill in your answers for all 20 questions below
 2. Each answer should be "A", "B", "C", or "D"
 3. Commit and push your changes
 4. GitHub Actions will automatically grade your submission
@@ -20,7 +20,7 @@ Example:
 student_name = "Your Name Here"
 student_id = "Your Student ID Here"
 
-# Your Answers (fill in all 15 questions)
+# Your Answers (fill in all 20 questions)
 answers = {
     1: "",  # Question 1
     2: "",  # Question 2
@@ -37,6 +37,11 @@ answers = {
     13: "",  # Question 13
     14: "",  # Question 14
     15: "",  # Question 15
+    16: "",  # Question 16
+    17: "",  # Question 17
+    18: "",  # Question 18
+    19: "",  # Question 19
+    20: "",  # Question 20
 }
 
 # Do not modify below this line
@@ -55,10 +60,10 @@ def validate_answers():
     """
     valid_options = {"A", "B", "C", "D"}
 
-    if len(answers) != 15:
-        return False, f"Expected 15 answers, found {len(answers)}"
+    if len(answers) != 20:
+        return False, f"Expected 20 answers, found {len(answers)}"
 
-    for q_num in range(1, 16):
+    for q_num in range(1, 21):
         if q_num not in answers:
             return False, f"Missing answer for question {q_num}"
 

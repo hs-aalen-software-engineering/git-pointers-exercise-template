@@ -26,13 +26,18 @@ _ANSWER_HASHES = {
     6: "5caced78aec30b64a341647b90199d46115a021ce540787042a72dd081073802",  # Question 6
     7: "abe8f01c7210829f7f49ca6761e90fb291f6be6ebac8e17974453079409cf145",  # Question 7
     8: "3406038041ce68623e3a6f89c0177ff45f38283c72822fca94b8feb451b44772",  # Question 8
-    9: "85be0dee5a0a8b46e01ce01fffb9160bcb8959489c0be83a6064705d991bcebf",  # Question 9
-    10: "5f58d3859161e0986b5dff5cba0fc1f8742917469cbc6d2dc5e1653bc0156caa",  # Question 10
-    11: "e1e8b18415cac4c595cd0de5879aaf12de9c96f8c0a1dbc60e927df22e31e4a3",  # Question 11
-    12: "526bc550448df58d89532fc5feb8722befb19c482437da3c4788699a34852c3d",  # Question 12
-    13: "4284cce29d204f3c780c63f6b9bf38a1e9b9efc1722b40ea23a7fd90876f1a4b",  # Question 13
+    9: "48d707ea37d1f8a9a7d0c77ff000a8bdacdd93e262bd77b1247195e6fc387b0a",  # Question 9
+    10: "d13e352541355e33c73dce9f44da24a2922bf8a1660ea26598ed58ac7760b42a",  # Question 10
+    11: "3dbea71e02f64ec034745488527d48a649ceba810eaf324534f72505ed6db330",  # Question 11
+    12: "eff0127871f31c02a25a1f5174007e29089adc69f0fa90f204dd4b104654ed77",  # Question 12
+    13: "70f6a3f308c067ecfb8b8772c24d8f1928031cdcda00724fb8448538b9272bff",  # Question 13
     14: "63b0fa90bf4525dd0be0412385eb2f04bc30f3ea3d64a0dbd96e1bd109f51d3c",  # Question 14
-    15: "886a0b8a0707fb2b4a799ebf549bf5dcd0fc1984153cfc2659ea6b1d96584858",  # Question 15
+    15: "ed69d7717e3d9bd5cf275bd76412ab803b4f8d338cd673d1686934184879cf12",  # Question 15
+    16: "f468de3fc870ca38f30731769a1814b45ad8173d628b7f0a6d18567c534e1532",  # Question 16
+    17: "d587740416b2ec3d67c9b873c43e78b4ec9a9f8f06d04dcf23ddeeaf54a56eb2",  # Question 17
+    18: "c44abbbaf05ca88f28560a4e93ab5887f5871e027cf20cb6edfcf91273d797ce",  # Question 18
+    19: "6df7ee43838424074f6aee866be3a8e240122c9180c4bca979cb8e5b362990ae",  # Question 19
+    20: "4c27698304d785a9caeeda6a51b4d748b79338f8514aba523298c2a420c97c8a",  # Question 20
 }
 
 
@@ -153,25 +158,55 @@ def test_question_15():
     assert _verify_answer(15, student_answers[15]), \
         "Incorrect answer for Question 15"
 
+def test_question_16():
+    """Question 16"""
+    student_answers = get_answers()
+    assert _verify_answer(16, student_answers[16]), \
+        "Incorrect answer for Question 16"
+
+def test_question_17():
+    """Question 17"""
+    student_answers = get_answers()
+    assert _verify_answer(17, student_answers[17]), \
+        "Incorrect answer for Question 17"
+
+def test_question_18():
+    """Question 18"""
+    student_answers = get_answers()
+    assert _verify_answer(18, student_answers[18]), \
+        "Incorrect answer for Question 18"
+
+def test_question_19():
+    """Question 19"""
+    student_answers = get_answers()
+    assert _verify_answer(19, student_answers[19]), \
+        "Incorrect answer for Question 19"
+
+def test_question_20():
+    """Question 20"""
+    student_answers = get_answers()
+    assert _verify_answer(20, student_answers[20]), \
+        "Incorrect answer for Question 20"
+
 def test_calculate_score():
     """Calculate and display the final score."""
     student_answers = get_answers()
     correct_count = sum(
-        1 for q in range(1, 16)
+        1 for q in range(1, 21)
         if _verify_answer(q, student_answers[q])
     )
 
-    percentage = (correct_count / 15) * 100
+    percentage = (correct_count / 20) * 100
 
     print(f"\n{'='*50}")
-    print(f"FINAL SCORE: {correct_count}/15 ({percentage:.1f}%)")
+    print(f"FINAL SCORE: {correct_count}/20 ({percentage:.1f}%)")
     print(f"{'='*50}")
 
-    if correct_count >= 13:
+    if correct_count >= 17:
         print("🏆 Excellent! You have a strong understanding!")
-    elif correct_count >= 10:
+    elif correct_count >= 14:
         print("👍 Good understanding! Review key concepts.")
-    elif correct_count >= 7:
+    elif correct_count >= 10:
         print("📖 Fair understanding. Please review the lecture.")
     else:
         print("🔄 Please review the lecture and try again.")

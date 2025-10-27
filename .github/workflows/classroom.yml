@@ -60,7 +60,7 @@ jobs:
               const output = fs.readFileSync('score_output.txt', 'utf8');
 
               // Parse score from output
-              const scoreMatch = output.match(/FINAL SCORE: (\d+)\/15 \((\d+\.?\d*)%\)/);
+              const scoreMatch = output.match(/FINAL SCORE: (\d+)\/20 \((\d+\.?\d*)%\)/);
 
               let commentBody;
               if (scoreMatch) {
@@ -83,7 +83,7 @@ jobs:
                   message = 'Please review the lecture and try again.';
                 }
 
-                commentBody = `## ${emoji} Autograding Results\n\n**Score:** ${correct}/15 (${percentage}%)\n\n${message}\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n---\n\n📊 [View detailed test results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+                commentBody = `## ${emoji} Autograding Results\n\n**Score:** ${correct}/20 (${percentage}%)\n\n${message}\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n---\n\n📊 [View detailed test results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
               } else {
                 commentBody = `## 📊 Autograding Complete\n\nTests have finished running.\n\n**Commit:** ${context.sha.substring(0, 7)}\n\n🔍 [View detailed results](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
               }
